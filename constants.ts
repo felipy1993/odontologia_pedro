@@ -40,6 +40,5 @@ export const INITIAL_EDITABLE_CONTENT: Record<string, string> = {
 };
 
 export const INITIAL_SOCIAL_LINKS: SocialLinks = {
-    instagram: '#',
-    facebook: '#'
+    instagram: 'https://www.instagram.com/odontologiapedro?igsh=bHVxMTR4djh5Nzg3',
 };

@@ -92,11 +92,7 @@ const AdminPanel: React.FC<AdminPanelProps> = (props) => {
                     <h3 className="admin-panel-section-title">Redes Sociais</h3>
                     <div className="admin-panel-control-group">
                         <label>Instagram URL</label>
-                        <input type="text" value={props.socialLinks.instagram} onChange={e => props.setSocialLinks({...props.socialLinks, instagram: e.target.value})} className="admin-panel-input"/>
-                    </div>
-                     <div className="admin-panel-control-group">
-                        <label>Facebook URL</label>
-                        <input type="text" value={props.socialLinks.facebook} onChange={e => props.setSocialLinks({...props.socialLinks, facebook: e.target.value})} className="admin-panel-input"/>
+                        <input type="text" value={props.socialLinks.instagram} onChange={e => props.setSocialLinks({ instagram: e.target.value})} className="admin-panel-input"/>
                     </div>
                 </div>
                 

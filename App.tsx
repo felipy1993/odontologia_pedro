@@ -32,7 +32,7 @@ const App: React.FC = () => {
     const [services, setServices] = useState<Service[]>(INITIAL_SERVICES);
     const [testimonials, setTestimonials] = useState<Testimonial[]>(INITIAL_TESTIMONIALS);
     const [galleryImages, setGalleryImages] = useState<GalleryImage[]>(INITIAL_GALLERY_IMAGES);
-    const [heroImage, setHeroImage] = useState('https://drive.google.com/file/d/1-GfM6h0atyRddRiy2nIqlm2TE9WdeLT7/view?usp=sharing');
+    const [heroImage, setHeroImage] = useState('https://images.unsplash.com/photo-1599321666498-b8a74e507b67?auto=format&fit=crop&w=1920&q=80');
     const [editableContent, setEditableContent] = useState<Record<string, string>>(INITIAL_EDITABLE_CONTENT);
     const [socialLinks, setSocialLinks] = useState<SocialLinks>(INITIAL_SOCIAL_LINKS);
     const [managementModal, setManagementModal] = useState<ManagementTarget>(null);
@@ -73,7 +73,7 @@ const App: React.FC = () => {
                     services: INITIAL_SERVICES,
                     testimonials: INITIAL_TESTIMONIALS,
                     galleryImages: INITIAL_GALLERY_IMAGES,
-                    heroImage: 'https://drive.google.com/file/d/1-GfM6h0atyRddRiy2nIqlm2TE9WdeLT7/view?usp=sharing',
+                    heroImage: 'https://images.unsplash.com/photo-1599321666498-b8a74e507b67?auto=format&fit=crop&w=1920&q=80',
                     editableContent: INITIAL_EDITABLE_CONTENT,
                     socialLinks: INITIAL_SOCIAL_LINKS,
                     theme: Theme.Light,

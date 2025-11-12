@@ -27,7 +27,6 @@ export interface GalleryImage {
 
 export interface SocialLinks {
     instagram: string;
-    facebook: string;
 }
 
 export enum Theme {
