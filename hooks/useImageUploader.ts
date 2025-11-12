@@ -1,57 +1,25 @@
-import { useState } from 'react';
-import { storage } from '../firebase';
-
 interface UploadResult {
-    isUploading: boolean;
-    error: string | null;
     triggerUpload: (path: string) => Promise<string | null>;
 }
 
 export const useImageUploader = (): UploadResult => {
-    const [isUploading, setIsUploading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
+    /**
+     * Triggers a prompt to ask the user for a Google Drive URL for an image.
+     * The 'path' argument is unused but kept for compatibility with existing function calls.
+     * @param path - The intended storage path (unused).
+     * @returns A promise that resolves with the entered URL or null if cancelled.
+     */
     const triggerUpload = (path: string): Promise<string | null> => {
         return new Promise((resolve) => {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.style.display = 'none';
-
-            input.onchange = async (event: Event) => {
-                const file = (event.target as HTMLInputElement)?.files?.[0];
-                if (file) {
-                    setIsUploading(true);
-                    setError(null);
-                    try {
-                        const storageRef = storage.ref(`${path}/${Date.now()}_${file.name}`);
-                        const uploadTask = await storageRef.put(file);
-                        const downloadURL = await uploadTask.ref.getDownloadURL();
-                        resolve(downloadURL);
-                    } catch (err) {
-                        console.error("Erro no upload da imagem:", err);
-                        const errorMessage = err instanceof Error ? err.message : "Falha ao fazer upload da imagem.";
-                        setError(errorMessage);
-                        alert(errorMessage);
-                        resolve(null);
-                    } finally {
-                        setIsUploading(false);
-                    }
-                } else {
-                    resolve(null);
-                }
-                document.body.removeChild(input);
-            };
-
-            input.oncancel = () => {
-                document.body.removeChild(input);
+            const url = window.prompt("Por favor, cole o link de compartilhamento do Google Drive para a imagem:");
+            // Resolve with the trimmed URL if provided, otherwise resolve with null.
+            if (url && url.trim() !== '') {
+                resolve(url.trim());
+            } else {
                 resolve(null);
-            };
-
-            document.body.appendChild(input);
-            input.click();
+            }
         });
     };
 
-    return { isUploading, error, triggerUpload };
+    return { triggerUpload };
 };

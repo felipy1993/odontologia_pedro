@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dentist } from '../types';
 import Editable from './Editable';
 import SectionControls from './SectionControls';
 import { transformGoogleDriveLink } from '../utils';
 import { useImageUploader } from '../hooks/useImageUploader';
-import LoadingSpinner from './LoadingSpinner';
 
 interface TeamProps {
     dentists: Dentist[];
@@ -17,17 +16,14 @@ interface TeamProps {
 }
 
 const Team: React.FC<TeamProps> = ({ dentists, containerClass, isEditMode, onUpdate, onDelete, onAdd, onAvatarChange }) => {
-    const { isUploading, triggerUpload } = useImageUploader();
-    const [uploadingAvatarId, setUploadingAvatarId] = useState<number | null>(null);
+    const { triggerUpload } = useImageUploader();
 
     const handleAvatarClick = async (id: number) => {
-        if (!isEditMode || isUploading) return;
-        setUploadingAvatarId(id);
+        if (!isEditMode) return;
         const downloadURL = await triggerUpload('images/team');
         if (downloadURL) {
             onAvatarChange(id, downloadURL);
         }
-        setUploadingAvatarId(null);
     };
 
     const renderDescription = (text: string) => {
@@ -68,11 +64,6 @@ const Team: React.FC<TeamProps> = ({ dentists, containerClass, isEditMode, onUpd
                                     onClick={() => handleAvatarClick(dentist.id)}
                                 >
                                     <div className="relative w-full h-full rounded-md overflow-hidden">
-                                        {isUploading && uploadingAvatarId === dentist.id && (
-                                            <div className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center">
-                                                <LoadingSpinner size="md" />
-                                            </div>
-                                        )}
                                         {dentist.avatar ? (
                                             <img src={transformGoogleDriveLink(dentist.avatar)} alt={dentist.name} className="w-full h-full object-cover" loading="lazy" />
                                         ) : (
@@ -80,7 +71,7 @@ const Team: React.FC<TeamProps> = ({ dentists, containerClass, isEditMode, onUpd
                                                 <span className="text-theme-primary text-4xl font-bold">{dentist.initials}</span>
                                             </div>
                                         )}
-                                        {isEditMode && !isUploading && (
+                                        {isEditMode && (
                                             <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L14.732 3.732z" />
