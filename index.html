@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Odontologia Pedro — Mirassol | Clínica Odontológica</title>
+  <meta name="description" content="Odontologia Pedro em Mirassol - atendimento humanizado, odontopediatria e clínica geral. Agende pelo WhatsApp: (17) 9 9668-2637" />
+  <meta name="theme-color" content="#0D2C54" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Odontologia Pedro — Mirassol" />
+  <meta property="og:description" content="Clínica moderna e acolhedora. Agende pelo WhatsApp: (17) 9 9668-2637" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630'%3E%3Crect width='100%25' height='100%25' fill='%230D2C54'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='48' fill='white'%3EOdontologia Pedro%3C/text%3E%3C/svg%3E" />
+
+  <!-- JSON-LD (LocalBusiness) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Dentist",
+    "name":"Odontologia Pedro",
+    "image": "",
+    "telephone":"+5517996682637",
+    "address":{
+      "@type":"PostalAddress",
+      "streetAddress":"R. Gislei Antonio Merloti, 1120 - São José",
+      "addressLocality":"Mirassol",
+      "addressRegion":"SP",
+      "postalCode":"15130-242",
+      "addressCountry":"BR"
+    },
+    "openingHours":[
+      "Mo 08:00-19:00",
+      "Tu 08:00-17:00",
+      "We 08:00-19:00",
+      "Th 08:00-19:00",
+      "Fr 08:00-17:00"
+    ]
+  }
+  </script>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+            heading: ['Montserrat', 'sans-serif'],
+          },
+          colors: {
+            'theme-primary': 'var(--primary)',
+            'theme-secondary': 'var(--secondary)',
+            'theme-muted': 'var(--muted)',
+            'theme-card': 'var(--card)',
+            'theme-accent': 'var(--accent)',
+            'theme-bg': 'var(--bg)',
+            'theme-text': 'var(--text)',
+            'theme-heading': 'var(--heading)',
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    :root {
+      --primary: #0D2C54;
+      --secondary: #C5A153;
+      --muted: #6c757d;
+      --card: #ffffff;
+      --accent: #f8f9fa;
+      --bg: #ffffff;
+      --text: #343a40;
+      --heading: #0D2C54;
+    }
+    .theme-dark {
+      --primary: #0D2C54;
+      --secondary: #C5A153;
+      --muted: #adb5bd;
+      --card: #212529;
+      --accent: #343a40;
+      --bg: #121212;
+      --text: #f8f9fa;
+      --heading: #ffffff;
+    }
+    .theme-pastel {
+      --primary: #84a59d;
+      --secondary: #f28482;
+      --muted: #8B7B8B;
+      --card: #fefae0;
+      --accent: #faedcd;
+      --bg: #fdfdfd;
+      --text: #585454;
+      --heading: #3c3a3a;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      /* Prevent text selection */
+      -webkit-user-select: none; /* Safari */
+      -ms-user-select: none; /* IE 10+ */
+      user-select: none; /* Standard syntax */
+    }
+    img {
+      /* Prevent image interaction (e.g., drag, right-click save) */
+      pointer-events: none;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Montserrat', sans-serif;
+    }
+    [contenteditable="true"] {
+        outline: 2px dashed var(--primary);
+        border-radius: 4px;
+        padding: 2px;
+        /* Re-enable text selection for admin editing */
+        -webkit-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+    }
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+</head>
+<body>
+  <div id="root"></div>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+  <script type="module" src="/index.tsx"></script>
+
+  <!-- Prevent right-click context menu -->
+  <script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+  </script>
+</body>
+</html>
