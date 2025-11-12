@@ -12,9 +12,10 @@ interface HeroProps {
     onContentChange: (id: string, value:string) => void;
     onImageChange: (newSrc: string) => void;
     containerClass: string;
+    heroTitleFontSize: number;
 }
 
-const Hero: React.FC<HeroProps> = ({ imageSrc, title, lead, isEditMode, onContentChange, onImageChange, containerClass }) => {
+const Hero: React.FC<HeroProps> = ({ imageSrc, title, lead, isEditMode, onContentChange, onImageChange, containerClass, heroTitleFontSize }) => {
     const { isUploading, triggerUpload } = useImageUploader();
 
     const handleImageClick = async () => {
@@ -50,12 +51,13 @@ const Hero: React.FC<HeroProps> = ({ imageSrc, title, lead, isEditMode, onConten
             )}
 
             <div className={`relative container mx-auto ${containerClass} flex items-center min-h-[70vh] md:min-h-[60vh] py-20`}>
-                <div className="max-w-2xl">
+                <div className="max-w-4xl">
                     <Editable
                         as="h1"
                         isEditMode={isEditMode}
                         onSave={(newValue) => onContentChange('hero-title', newValue)}
-                        className="text-4xl md:text-5xl font-bold my-4 leading-tight font-heading"
+                        className="font-bold my-4 leading-tight font-heading whitespace-pre-line"
+                        style={{ fontSize: `clamp(36px, 7vw, ${heroTitleFontSize}px)` }}
                     >
                         {title}
                     </Editable>

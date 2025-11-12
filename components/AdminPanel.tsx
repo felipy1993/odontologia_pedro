@@ -10,6 +10,8 @@ interface AdminPanelProps {
     setLayout: (layout: Layout) => void;
     primaryColor: string;
     setPrimaryColor: (color: string) => void;
+    heroTitleFontSize: number;
+    setHeroTitleFontSize: (size: number) => void;
     socialLinks: SocialLinks;
     setSocialLinks: (links: SocialLinks) => void;
     onLogout: () => void;
@@ -68,6 +70,16 @@ const AdminPanel: React.FC<AdminPanelProps> = (props) => {
                             <option value={Layout.Compact}>Compacto</option>
                             <option value={Layout.Wide}>Amplo</option>
                         </select>
+                    </div>
+                    <div className="admin-panel-control-group">
+                        <label>Tamanho do Título (px)</label>
+                        <input
+                            type="number"
+                            value={props.heroTitleFontSize}
+                            onChange={(e) => props.setHeroTitleFontSize(Number(e.target.value))}
+                            className="admin-panel-input"
+                            placeholder="ex: 96"
+                        />
                     </div>
                     <div className="admin-panel-control-group">
                         <label>Cor Primária</label>

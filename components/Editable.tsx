@@ -4,12 +4,12 @@ interface EditableProps {
     isEditMode: boolean;
     onSave: (newValue: string) => void;
     children: string;
-    // Fix: Use React.ElementType instead of JSX.IntrinsicElements to avoid namespace issues.
     as?: React.ElementType;
     className?: string;
+    style?: React.CSSProperties;
 }
 
-const Editable: React.FC<EditableProps> = ({ isEditMode, onSave, children, as = 'div', className }) => {
+const Editable: React.FC<EditableProps> = ({ isEditMode, onSave, children, as = 'div', className, style }) => {
     const Tag = as;
     
     const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
@@ -25,6 +25,7 @@ const Editable: React.FC<EditableProps> = ({ isEditMode, onSave, children, as = 
             suppressContentEditableWarning={true}
             onBlur={handleBlur}
             className={className}
+            style={style}
         >
             {children}
         </Tag>

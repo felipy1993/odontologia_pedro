@@ -43,6 +43,7 @@ const App: React.FC = () => {
     const [theme, setTheme] = useState<Theme>(Theme.Light);
     const [layout, setLayout] = useState<Layout>(Layout.Default);
     const [primaryColor, setPrimaryColor] = useState('#0D2C54');
+    const [heroTitleFontSize, setHeroTitleFontSize] = useState<number>(96);
 
     // Reference to the Firestore document
     const docRef = db.collection('siteContent').doc('main');
@@ -63,6 +64,7 @@ const App: React.FC = () => {
                     setTheme(data.theme || Theme.Light);
                     setLayout(data.layout || Layout.Default);
                     setPrimaryColor(data.primaryColor || '#0D2C54');
+                    setHeroTitleFontSize(data.heroTitleFontSize || 96);
                 }
             } else {
                 // If the document doesn't exist, create it with initial data
@@ -77,6 +79,7 @@ const App: React.FC = () => {
                     theme: Theme.Light,
                     layout: Layout.Default,
                     primaryColor: '#0D2C54',
+                    heroTitleFontSize: 96,
                 });
             }
             setIsLoading(false);
@@ -109,9 +112,9 @@ const App: React.FC = () => {
         
         // Persist UI changes to Firestore
         if (isLoggedIn) {
-            docRef.update({ theme, primaryColor, layout }).catch(console.error);
+            docRef.update({ theme, primaryColor, layout, heroTitleFontSize }).catch(console.error);
         }
-    }, [theme, primaryColor, layout, isLoggedIn]);
+    }, [theme, primaryColor, layout, heroTitleFontSize, isLoggedIn]);
 
 
     const handleLogin = (email: string, pass: string) => {
@@ -273,6 +276,8 @@ const App: React.FC = () => {
                     setLayout={setLayout}
                     primaryColor={primaryColor}
                     setPrimaryColor={setPrimaryColor}
+                    heroTitleFontSize={heroTitleFontSize}
+                    setHeroTitleFontSize={setHeroTitleFontSize}
                     socialLinks={socialLinks}
                     setSocialLinks={handleSocialLinksChange}
                     onLogout={() => auth.signOut()}
@@ -288,6 +293,7 @@ const App: React.FC = () => {
                   onContentChange={handleContentChange}
                   onImageChange={handleChangeHeroImage}
                   containerClass={containerClass}
+                  heroTitleFontSize={heroTitleFontSize}
                 />
                 <About 
                     content={editableContent['about-p1']}
@@ -365,6 +371,7 @@ interface SiteData {
     theme: Theme;
     layout: Layout;
     primaryColor: string;
+    heroTitleFontSize: number;
 }
 
 

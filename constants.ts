@@ -33,8 +33,8 @@ export const INITIAL_GALLERY_IMAGES: GalleryImage[] = [
 
 
 export const INITIAL_EDITABLE_CONTENT: Record<string, string> = {
-    'hero-title': 'Excelência em odontologia. O cuidado que seu sorriso merece.',
-    'hero-lead': 'Tecnologia de ponta e uma equipe de especialistas dedicados a oferecer o melhor tratamento odontológico para você e sua família.',
+    'hero-title': 'Excelência em Odontologia.\nO cuidado que seu sorriso merece.',
+    'hero-lead': 'Equipe de especialistas dedicados a oferecer o melhor tratamento odontológico para você e sua família.',
     'about-p1': 'Localizada em Mirassol, a Odontologia Pedro é referência em atendimento acolhedor e tratamentos de qualidade. Cuidamos do seu sorriso com empatia, técnica e tecnologia de ponta para garantir os melhores resultados.',
     'contact-p1': 'Estamos prontos para atender você. Agende sua consulta pelo WhatsApp ou ligue para nós. Venha nos conhecer e descubra um novo conceito em odontologia.',
 };
