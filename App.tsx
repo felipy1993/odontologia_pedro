@@ -14,14 +14,18 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import LoginModal from './components/LoginModal';
 import AdminPanel from './components/AdminPanel';
-import ManagementModal, { Field } from './components/ManagementModal';
+import ManagementModal from './components/ManagementModal';
 import UndoToast from './components/UndoToast';
+import LoadingSpinner from './components/LoadingSpinner';
+import ScrollToTopButton from './components/ScrollToTopButton';
 
 type ManagementTarget = 'dentists' | 'services' | 'testimonials' | null;
 
 const App: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
+    const [loginError, setLoginError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
     
     // State Management (initialized with constants, will be overwritten by Firebase)
     const [dentists, setDentists] = useState<Dentist[]>(INITIAL_DENTISTS);
@@ -75,6 +79,10 @@ const App: React.FC = () => {
                     primaryColor: '#0D2C54',
                 });
             }
+            setIsLoading(false);
+        }, (error) => {
+            console.error("Error fetching data from Firestore:", error);
+            setIsLoading(false);
         });
         return () => unsubscribe();
     }, []);
@@ -107,11 +115,16 @@ const App: React.FC = () => {
 
 
     const handleLogin = (email: string, pass: string) => {
+        setLoginError(null);
         auth.signInWithEmailAndPassword(email, pass)
             .then(() => setShowLoginModal(false))
-            .catch(error => {
+            .catch((error: any) => {
                 console.error("Firebase login error:", error);
-                alert('Credenciais incorretas ou erro de conexão.');
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+                    setLoginError('E-mail ou senha incorretos.');
+                } else {
+                    setLoginError('Ocorreu um erro. Tente novamente.');
+                }
             });
     };
 
@@ -202,6 +215,7 @@ const App: React.FC = () => {
         if (!managementModal) return null;
         switch (managementModal) {
             case 'dentists':
+                // FIX: Specify the generic type for ManagementModal to ensure type safety for the new item.
                 return <ManagementModal<Omit<Dentist, 'id'>>
                     isOpen={true}
                     onClose={() => setManagementModal(null)}
@@ -216,6 +230,7 @@ const App: React.FC = () => {
                     onSave={(newItem) => handleAddItem('dentists', dentists, newItem)}
                 />;
             case 'services':
+                // FIX: Specify the generic type for ManagementModal to ensure type safety for the new item.
                 return <ManagementModal<Omit<Service, 'id'>>
                     isOpen={true}
                     onClose={() => setManagementModal(null)}
@@ -227,6 +242,7 @@ const App: React.FC = () => {
                     onSave={(newItem) => handleAddItem('services', services, newItem)}
                 />;
             case 'testimonials':
+                // FIX: Specify the generic type for ManagementModal to ensure type safety for the new item.
                 return <ManagementModal<Omit<Testimonial, 'id'>>
                     isOpen={true}
                     onClose={() => setManagementModal(null)}
@@ -244,6 +260,7 @@ const App: React.FC = () => {
 
     return (
         <div className="font-sans bg-theme-bg text-theme-text transition-colors duration-300">
+            {isLoading && <LoadingSpinner fullScreen />}
             <Header containerClass={containerClass} />
             
             {isLoggedIn && (
@@ -321,8 +338,9 @@ const App: React.FC = () => {
             </main>
 
             <Footer onAdminClick={() => setShowLoginModal(true)} socialLinks={socialLinks} containerClass={containerClass} />
+            <ScrollToTopButton />
 
-            {showLoginModal && <LoginModal onLogin={handleLogin} onCancel={() => setShowLoginModal(false)} />}
+            {showLoginModal && <LoginModal onLogin={handleLogin} onCancel={() => { setShowLoginModal(false); setLoginError(null); }} error={loginError} />}
             {renderManagementModal()}
             {toast && (
                 <UndoToast

@@ -38,10 +38,8 @@ const ManagementModal = <T extends Record<string, any>>({
         };
 
         if (field.type === 'textarea') {
-            // Fix: Renamed class to avoid conflicts.
             return <textarea value={value} onChange={onChange} className="management-modal-input" rows={3}></textarea>;
         }
-        // Fix: Renamed class to avoid conflicts.
         return <input type="text" value={value} onChange={onChange} className="management-modal-input" />;
     };
 
@@ -67,10 +65,6 @@ const ManagementModal = <T extends Record<string, any>>({
                     </div>
                 </div>
             </div>
-             {/* Fix: removed jsx attribute and renamed class to prevent type error and style conflicts. */}
-             <style>{`
-                .management-modal-input { width: 100%; background-color: #2d3748; color: white; border: 1px solid #4a5568; border-radius: 8px; padding: 8px 12px; font-size: 14px; }
-            `}</style>
         </div>
     );
 };

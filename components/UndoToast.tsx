@@ -30,15 +30,6 @@ const UndoToast: React.FC<UndoToastProps> = ({ message, onUndo, onClose }) => {
                 Desfazer
             </button>
             <button onClick={onClose} className="text-gray-400 hover:text-white text-xl leading-none">&times;</button>
-             <style>{`
-                @keyframes fadeInUp {
-                    from { opacity: 0; transform: translate(-50%, 20px); }
-                    to { opacity: 1; transform: translate(-50%, 0); }
-                }
-                .animate-fade-in-up {
-                    animation: fadeInUp 0.3s ease-out forwards;
-                }
-            `}</style>
         </div>
     );
 };

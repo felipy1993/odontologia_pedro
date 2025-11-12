@@ -37,7 +37,7 @@ const Treatments: React.FC<TreatmentsProps> = ({ services, containerClass, isEdi
                                 as="h3"
                                 isEditMode={isEditMode}
                                 onSave={(newValue) => onUpdate(service.id, 'title', newValue)}
-                                className="text-theme-heading font-bold text-lg font-heading"
+                                className="text-theme-heading font-bold text-lg font-heading uppercase"
                             >
                                 {service.title}
                             </Editable>
@@ -45,7 +45,7 @@ const Treatments: React.FC<TreatmentsProps> = ({ services, containerClass, isEdi
                                 as="p"
                                 isEditMode={isEditMode}
                                 onSave={(newValue) => onUpdate(service.id, 'description', newValue)}
-                                className="text-theme-muted mt-2 text-sm"
+                                className="text-theme-muted mt-2 text-sm uppercase"
                             >
                                 {service.description}
                             </Editable>

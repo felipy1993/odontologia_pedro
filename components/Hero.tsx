@@ -1,7 +1,8 @@
 import React from 'react';
 import Editable from './Editable';
 import { transformGoogleDriveLink } from '../utils';
-import { storage } from '../firebase';
+import { useImageUploader } from '../hooks/useImageUploader';
+import LoadingSpinner from './LoadingSpinner';
 
 interface HeroProps {
     imageSrc: string;
@@ -14,32 +15,14 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ imageSrc, title, lead, isEditMode, onContentChange, onImageChange, containerClass }) => {
-    const handleImageClick = () => {
-        if (!isEditMode) return;
+    const { isUploading, triggerUpload } = useImageUploader();
 
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.style.display = 'none';
-
-        input.onchange = async (event: Event) => {
-            const file = (event.target as HTMLInputElement)?.files?.[0];
-            if (file) {
-                try {
-                    const storageRef = storage.ref(`images/hero/${Date.now()}_${file.name}`);
-                    const uploadTask = await storageRef.put(file);
-                    const downloadURL = await uploadTask.ref.getDownloadURL();
-                    onImageChange(downloadURL);
-                } catch (error) {
-                    console.error("Erro no upload da imagem:", error);
-                    alert("Falha ao fazer upload da imagem.");
-                }
-            }
-            document.body.removeChild(input);
-        };
-        
-        document.body.appendChild(input);
-        input.click();
+    const handleImageClick = async () => {
+        if (!isEditMode || isUploading) return;
+        const downloadURL = await triggerUpload('images/hero');
+        if (downloadURL) {
+            onImageChange(downloadURL);
+        }
     };
     
     return (
@@ -48,10 +31,16 @@ const Hero: React.FC<HeroProps> = ({ imageSrc, title, lead, isEditMode, onConten
             style={{ backgroundImage: `url(${transformGoogleDriveLink(imageSrc)})` }}
         >
             <div className="absolute inset-0 bg-black/50"></div>
+            {isUploading && (
+                <div className="absolute inset-0 bg-black/70 z-10 flex items-center justify-center">
+                    <LoadingSpinner size="lg" />
+                </div>
+            )}
              {isEditMode && (
                 <button 
                     onClick={handleImageClick}
-                    className="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                    disabled={isUploading}
+                    className="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors disabled:opacity-50"
                     aria-label="Alterar Imagem de Fundo"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

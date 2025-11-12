@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ containerClass }) => {
 
             {/* Mobile Menu */}
             {isMenuOpen && (
-                <div className="lg:hidden bg-theme-bg/95 backdrop-blur-lg absolute top-full left-0 w-full border-t border-black/5">
+                <div className="lg:hidden bg-theme-bg/95 backdrop-blur-lg absolute top-full left-0 w-full border-t border-black/5 animate-slide-down">
                     <div className={`container mx-auto ${containerClass} py-4`}>
                         <nav>
                             <ul className="flex flex-col items-center gap-2">
