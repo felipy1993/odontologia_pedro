@@ -5,13 +5,13 @@ interface AdminPanelProps {
     onToggleEditMode: () => void;
     isEditMode: boolean;
     theme: Theme;
-    setTheme: (theme: Theme) => void;
+    onThemeChange: (theme: Theme) => void;
     layout: Layout;
-    setLayout: (layout: Layout) => void;
+    onLayoutChange: (layout: Layout) => void;
     primaryColor: string;
-    setPrimaryColor: (color: string) => void;
+    onPrimaryColorChange: (color: string) => void;
     heroTitleFontSize: number;
-    setHeroTitleFontSize: (size: number) => void;
+    onHeroTitleFontSizeChange: (size: number) => void;
     socialLinks: SocialLinks;
     setSocialLinks: (links: SocialLinks) => void;
     onLogout: () => void;
@@ -57,7 +57,7 @@ const AdminPanel: React.FC<AdminPanelProps> = (props) => {
                     <h3 className="admin-panel-section-title">Aparência</h3>
                     <div className="admin-panel-control-group">
                         <label>Tema</label>
-                        <select value={props.theme} onChange={(e) => props.setTheme(e.target.value as Theme)} className="admin-panel-input">
+                        <select value={props.theme} onChange={(e) => props.onThemeChange(e.target.value as Theme)} className="admin-panel-input">
                             <option value={Theme.Light}>Claro</option>
                             <option value={Theme.Dark}>Escuro</option>
                             <option value={Theme.Pastel}>Pastel</option>
@@ -65,7 +65,7 @@ const AdminPanel: React.FC<AdminPanelProps> = (props) => {
                     </div>
                      <div className="admin-panel-control-group">
                         <label>Layout</label>
-                        <select value={props.layout} onChange={(e) => props.setLayout(e.target.value as Layout)} className="admin-panel-input">
+                        <select value={props.layout} onChange={(e) => props.onLayoutChange(e.target.value as Layout)} className="admin-panel-input">
                             <option value={Layout.Default}>Padrão</option>
                             <option value={Layout.Compact}>Compacto</option>
                             <option value={Layout.Wide}>Amplo</option>
@@ -76,14 +76,14 @@ const AdminPanel: React.FC<AdminPanelProps> = (props) => {
                         <input
                             type="number"
                             value={props.heroTitleFontSize}
-                            onChange={(e) => props.setHeroTitleFontSize(Number(e.target.value))}
+                            onChange={(e) => props.onHeroTitleFontSizeChange(Number(e.target.value))}
                             className="admin-panel-input"
                             placeholder="ex: 96"
                         />
                     </div>
                     <div className="admin-panel-control-group">
                         <label>Cor Primária</label>
-                        <input type="color" value={props.primaryColor} onChange={(e) => props.setPrimaryColor(e.target.value)} className="admin-panel-input h-10 p-1"/>
+                        <input type="color" value={props.primaryColor} onChange={(e) => props.onPrimaryColorChange(e.target.value)} className="admin-panel-input h-10 p-1"/>
                     </div>
                 </div>
 

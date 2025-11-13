@@ -17,6 +17,8 @@ export interface Testimonial {
     id: number;
     quote: string;
     author: string;
+    rating: number;
+    avatar?: string;
 }
 
 export interface GalleryImage {

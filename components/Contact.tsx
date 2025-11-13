@@ -1,5 +1,6 @@
 import React from 'react';
 import Editable from './Editable';
+import { useAnimateOnScroll } from '../hooks/useAnimateOnScroll';
 
 interface ContactProps {
     containerClass: string;
@@ -9,12 +10,14 @@ interface ContactProps {
 }
 
 const Contact: React.FC<ContactProps> = ({ containerClass, content, isEditMode, onContentChange }) => {
+    const { ref, isVisible } = useAnimateOnScroll({ threshold: 0.2 });
+
     return (
         <section id="contato" className={`container mx-auto py-16 lg:py-24 ${containerClass}`}>
             <div className="max-w-xl mx-auto text-center mb-12">
                 <h2 className="text-3xl font-bold text-theme-heading font-heading">Contato & Localização</h2>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div ref={ref} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 transition-opacity duration-500 ${isVisible ? 'animate-reveal' : 'opacity-0'}`}>
                 <div>
                     <Editable as="p" isEditMode={isEditMode} onSave={onContentChange} className="text-theme-muted mb-6">
                         {content}

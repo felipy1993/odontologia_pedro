@@ -4,6 +4,7 @@ import Editable from './Editable';
 import SectionControls from './SectionControls';
 import { transformGoogleDriveLink } from '../utils';
 import { useImageUploader } from '../hooks/useImageUploader';
+import { useAnimateOnScroll } from '../hooks/useAnimateOnScroll';
 
 interface TeamProps {
     dentists: Dentist[];
@@ -17,6 +18,7 @@ interface TeamProps {
 
 const Team: React.FC<TeamProps> = ({ dentists, containerClass, isEditMode, onUpdate, onDelete, onAdd, onAvatarChange }) => {
     const { triggerUpload } = useImageUploader();
+    const { ref, isVisible } = useAnimateOnScroll({ threshold: 0.2 });
 
     const handleAvatarClick = async (id: number) => {
         if (!isEditMode) return;
@@ -51,12 +53,16 @@ const Team: React.FC<TeamProps> = ({ dentists, containerClass, isEditMode, onUpd
                 <div className="mt-4 mx-auto w-24 h-1 bg-theme-secondary"></div>
             </div>
             
-            <div className="flex flex-col gap-16 lg:gap-24">
-                {dentists.map((dentist) => {
+            <div ref={ref} className="flex flex-col gap-16 lg:gap-24">
+                {dentists.map((dentist, index) => {
                     const [specialty, cro] = dentist.specialty ? dentist.specialty.split('—').map(s => s.trim()) : ['', ''];
 
                     return (
-                        <div key={dentist.id} className="relative group grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-center">
+                        <div 
+                            key={dentist.id} 
+                            className={`relative group grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-center transition-opacity duration-500 ${isVisible ? 'animate-reveal' : 'opacity-0'}`}
+                            style={{ animationDelay: `${index * 150}ms` }}
+                        >
                             {/* Left Col: Image */}
                             <div className="md:col-span-1">
                                 <div 

@@ -21,14 +21,17 @@ export const INITIAL_SERVICES: Service[] = [
 ];
 
 export const INITIAL_TESTIMONIALS: Testimonial[] = [
-    { id: 1, quote: '“Excelente atendimento! Me senti muito à vontade desde a recepção até o final do tratamento.”', author: 'Mariana' },
-    { id: 2, quote: '“Minha filha adorou. A Dra. Tatiane é muito calma e carinhosa com as crianças.”', author: 'Rafael' },
+    { id: 1, quote: '“Excelente atendimento! Me senti muito à vontade desde a recepção até o final do tratamento. A Dra. é extremamente profissional e atenciosa.”', author: 'Mariana S.', rating: 5, avatar: 'https://i.pravatar.cc/150?u=mariana' },
+    { id: 2, quote: '“Minha filha adorou. A Dra. Tatiane é muito calma e carinhosa com as crianças, o que fez toda a diferença. Recomendo de olhos fechados!”', author: 'Rafael L.', rating: 5, avatar: 'https://i.pravatar.cc/150?u=rafael' },
 ];
 
 export const INITIAL_GALLERY_IMAGES: GalleryImage[] = [
-    { id: 1, src: 'https://images.unsplash.com/photo-1629904853716-f0bc54eea481?w=800&auto=format&fit=crop&q=60', caption: 'Ambiente preparado para o seu conforto.' },
-    { id: 2, src: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop&q=60', caption: 'Tecnologia de ponta para diagnósticos precisos.' },
-    { id: 3, src: 'https://images.unsplash.com/photo-1594495894542-a46cc73e081a?w=800&auto=format&fit=crop&q=60', caption: 'Resultados que devolvem a confiança no seu sorriso.' },
+    { id: 1, src: 'https://drive.google.com/file/d/1CO5EDAcrMDEErf91KFOwGaK0mPZ7z2-2/view?usp=sharing', caption: 'Onde o cuidado começa com um sorriso.\nNossa equipe recebe cada paciente com atenção e carinho.' },
+    { id: 2, src: 'https://drive.google.com/file/d/1wx7EdwRFupYDql7s5BK9tkaA3RoCGsqC/view?usp=sharing', caption: 'Um cantinho preparado para o seu conforto.\nUm ambiente tranquilo para aguardar com leveza e bem-estar.' },
+    { id: 3, src: 'https://drive.google.com/file/d/1xolVv1doMA7JPKeTemKHvNn6wAtlxDc6/view?usp=sharing', caption: 'Cada conversa é feita com escuta e empatia.\nAqui planejamos o melhor cuidado para cada sorriso.' },
+    { id: 4, src: 'https://drive.google.com/file/d/1QM9uzIkgb_2U_AGooXo-dyIb779N7LsG/view?usp=sharing', caption: 'Um espaço pensado para cuidar de você com calma e delicadeza.\nAqui cada detalhe foi preparado para o seu conforto.' },
+    { id: 5, src: 'https://drive.google.com/file/d/1EZOj7ngtI8gVLFWf-WyfSv1cGICFHuLp/view?usp=sharing', caption: 'Um ambiente que transmite confiança e cuidado.\nOnde cada atendimento é feito com atenção e dedicação.' },
+    { id: 6, src: 'https://drive.google.com/file/d/1CO5EDAcrMDEErf91KFOwGaK0mPZ7z2-2/view?usp=sharing', caption: 'Onde o cuidado começa com um sorriso.\nNossa equipe recebe cada paciente com atenção e carinho.' },
 ];
 
 

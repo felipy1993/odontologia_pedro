@@ -2,6 +2,7 @@ import React from 'react';
 import { Service } from '../types';
 import Editable from './Editable';
 import SectionControls from './SectionControls';
+import { useAnimateOnScroll } from '../hooks/useAnimateOnScroll';
 
 interface TreatmentsProps {
     services: Service[];
@@ -22,6 +23,8 @@ const ToothIcon: React.FC = () => (
 
 
 const Treatments: React.FC<TreatmentsProps> = ({ services, containerClass, isEditMode, onUpdate, onDelete, onAdd }) => {
+    const { ref, isVisible } = useAnimateOnScroll({ threshold: 0.1 });
+
     return (
         <section id="tratamentos" className={`bg-theme-accent py-16 lg:py-24`}>
             <div className={`container mx-auto ${containerClass}`}>
@@ -29,9 +32,13 @@ const Treatments: React.FC<TreatmentsProps> = ({ services, containerClass, isEdi
                     <h2 className="text-3xl font-bold text-theme-heading font-heading">Nossos Tratamentos</h2>
                     <p className="text-theme-muted mt-4">Oferecemos uma gama completa de tratamentos para garantir a saúde e a beleza do seu sorriso.</p>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" aria-label="Lista de tratamentos">
-                    {services.map((service) => (
-                        <div key={service.id} className="relative group p-8 rounded-2xl bg-theme-card border border-black/5 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-theme-primary/10">
+                <div ref={ref} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" aria-label="Lista de tratamentos">
+                    {services.map((service, index) => (
+                        <div 
+                            key={service.id} 
+                            className={`relative group p-8 rounded-2xl bg-theme-card border border-black/5 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-theme-primary/10 ${isVisible ? 'animate-reveal' : 'opacity-0'}`}
+                            style={{ animationDelay: `${index * 100}ms` }}
+                        >
                             <ToothIcon />
                             <Editable
                                 as="h3"

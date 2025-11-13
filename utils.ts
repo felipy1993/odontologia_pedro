@@ -19,14 +19,11 @@ export const transformGoogleDriveLink = (url?: string): string => {
 
   if (match && match[1]) {
     const fileId = match[1];
+    // This format uses Google's image content delivery network and is more reliable for direct embedding.
     return `https://lh3.googleusercontent.com/d/${fileId}`;
-  }
-
-  // If it's already in the correct direct link format, do nothing.
-  if (url.startsWith('https://lh3.googleusercontent.com/d/')) {
-    return url;
   }
   
   // Return original URL if it's not a recognizable Google Drive link
+  // or if it's already a direct link (e.g., from another source).
   return url;
 };

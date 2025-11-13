@@ -1,5 +1,6 @@
 import React from 'react';
 import Editable from './Editable';
+import { useAnimateOnScroll } from '../hooks/useAnimateOnScroll';
 
 const CheckIcon = () => (
     <svg className="w-5 h-5 text-theme-primary shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -16,12 +17,14 @@ interface AboutProps {
 }
 
 const About: React.FC<AboutProps> = ({ containerClass, content, isEditMode, onContentChange }) => {
+    const { ref, isVisible } = useAnimateOnScroll({ threshold: 0.2 });
+
     return (
         <section id="sobre" className={`container mx-auto py-16 lg:py-24 ${containerClass}`}>
             <div className="max-w-xl mx-auto text-center mb-12">
                  <h2 className="text-3xl font-bold text-theme-heading font-heading">Sobre a clínica</h2>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div ref={ref} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center transition-opacity duration-500 ${isVisible ? 'animate-reveal' : 'opacity-0'}`}>
                 <div className="order-2 lg:order-1">
                     <Editable
                         as="p"

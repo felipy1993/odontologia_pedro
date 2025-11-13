@@ -1,5 +1,6 @@
 import React from 'react';
 import { SocialLinks } from '../types';
+import { useAnimateOnScroll } from '../hooks/useAnimateOnScroll';
 
 interface FooterProps {
     onAdminClick: () => void;
@@ -8,8 +9,10 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ onAdminClick, socialLinks, containerClass }) => {
+    const { ref, isVisible } = useAnimateOnScroll({ threshold: 0.1 });
+
     return (
-        <footer className="bg-theme-accent border-t border-black/5">
+        <footer ref={ref} className={`bg-theme-accent border-t border-black/5 transition-opacity duration-500 ${isVisible ? 'animate-reveal' : 'opacity-0'}`}>
             <div className={`container mx-auto ${containerClass}`}>
                 <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {/* Column 1: About */}

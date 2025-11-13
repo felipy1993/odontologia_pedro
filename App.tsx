@@ -1,3 +1,9 @@
+
+
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import { db, auth } from './firebase';
 import { Dentist, Theme, Layout, Service, Testimonial, SocialLinks, GalleryImage } from './types';
@@ -18,6 +24,7 @@ import ManagementModal from './components/ManagementModal';
 import UndoToast from './components/UndoToast';
 import LoadingSpinner from './components/LoadingSpinner';
 import ScrollToTopButton from './components/ScrollToTopButton';
+import { useImageUploader } from './hooks/useImageUploader';
 
 type ManagementTarget = 'dentists' | 'services' | 'testimonials' | null;
 
@@ -47,6 +54,9 @@ const App: React.FC = () => {
 
     // Reference to the Firestore document
     const docRef = db.collection('siteContent').doc('main');
+
+    // Hook for handling image uploads via URL prompt
+    const { triggerUpload } = useImageUploader();
 
     // Effect to fetch and listen for real-time data from Firestore
     useEffect(() => {
@@ -102,19 +112,17 @@ const App: React.FC = () => {
     }, []);
 
 
-    // Effect to apply theme and color changes to the DOM
+    // Effect to apply visual theme changes to the DOM
     useEffect(() => {
         const root = document.documentElement;
         root.style.setProperty('--primary', primaryColor);
         root.classList.remove('theme-dark', 'theme-pastel');
-        if (theme === Theme.Dark) root.classList.add('theme-dark');
-        else if (theme === Theme.Pastel) root.classList.add('theme-pastel');
-        
-        // Persist UI changes to Firestore
-        if (isLoggedIn) {
-            docRef.update({ theme, primaryColor, layout, heroTitleFontSize }).catch(console.error);
+        if (theme === Theme.Dark) {
+            root.classList.add('theme-dark');
+        } else if (theme === Theme.Pastel) {
+            root.classList.add('theme-pastel');
         }
-    }, [theme, primaryColor, layout, heroTitleFontSize, isLoggedIn]);
+    }, [theme, primaryColor]);
 
 
     const handleLogin = (email: string, pass: string) => {
@@ -139,12 +147,36 @@ const App: React.FC = () => {
         docRef.update({ [`editableContent.${id}`]: value }).catch(console.error);
     };
 
-    const handleUpdateItem = async <T extends { id: number }>(
+    // Handlers for UI customization that persist to Firestore
+    const handleThemeChange = (newTheme: Theme) => {
+        setTheme(newTheme);
+        docRef.update({ theme: newTheme }).catch(console.error);
+    };
+
+    const handleLayoutChange = (newLayout: Layout) => {
+        setLayout(newLayout);
+        docRef.update({ layout: newLayout }).catch(console.error);
+    };
+
+    const handlePrimaryColorChange = (newColor: string) => {
+        setPrimaryColor(newColor);
+        docRef.update({ primaryColor: newColor }).catch(console.error);
+    };
+
+    const handleHeroTitleFontSizeChange = (newSize: number) => {
+        setHeroTitleFontSize(newSize);
+        docRef.update({ heroTitleFontSize: newSize }).catch(console.error);
+    };
+
+    // FIX: Changed handleUpdateItem to use a more specific two-parameter generic
+    // signature (<T, K>) to correctly infer the types of `field` and `value`.
+    // This resolves TypeScript errors when passing string literals for the `field` argument.
+    const handleUpdateItem = async <T extends { id: number }, K extends keyof T>(
         collectionField: keyof SiteData,
         items: T[],
         id: number,
-        field: keyof T,
-        value: any
+        field: K,
+        value: T[K]
     ) => {
         const updatedItems = items.map(item => item.id === id ? { ...item, [field]: value } : item);
         await docRef.update({ [collectionField]: updatedItems });
@@ -187,16 +219,20 @@ const App: React.FC = () => {
         await docRef.update({ [collectionField]: [...items, itemWithId] });
     };
 
-    const handleAddGalleryItem = () => {
-        const newItem: Omit<GalleryImage, 'id'> = {
-            src: 'https://images.unsplash.com/photo-1533044926189-524b8f36c52a?w=800&auto=format&fit=crop&q=60',
-            caption: 'Nova legenda'
-        };
-        handleAddItem('galleryImages', galleryImages, newItem);
+    const handleAddGalleryItem = async () => {
+        const newSrc = await triggerUpload('images/gallery');
+        if (newSrc) {
+            const newItem: Omit<GalleryImage, 'id'> = {
+                src: newSrc,
+                caption: 'Nova legenda',
+            };
+            handleAddItem('galleryImages', galleryImages, newItem);
+        }
     };
 
     const handleGalleryImageChange = (id: number, newSrc: string) => {
-        handleUpdateItem('galleryImages', galleryImages, id, 'src', newSrc);
+        // FIX: Explicitly provide generic type arguments to handleUpdateItem to resolve a TypeScript inference issue.
+        handleUpdateItem<GalleryImage, 'src'>('galleryImages', galleryImages, id, 'src', newSrc);
     };
 
     const handleChangeHeroImage = (newSrc: string) => {
@@ -209,7 +245,12 @@ const App: React.FC = () => {
     };
 
     const handleDentistAvatarChange = (id: number, newSrc: string) => {
-        handleUpdateItem('dentists', dentists, id, 'avatar', newSrc);
+        // FIX: Explicitly provide generic type arguments to handleUpdateItem to resolve a TypeScript inference issue.
+        handleUpdateItem<Dentist, 'avatar'>('dentists', dentists, id, 'avatar', newSrc);
+    };
+
+    const handleTestimonialAvatarChange = (id: number, newSrc: string) => {
+        handleUpdateItem<Testimonial, 'avatar'>('testimonials', testimonials, id, 'avatar', newSrc);
     };
 
     const containerClass = layout === Layout.Compact ? 'px-4 max-w-5xl' : layout === Layout.Wide ? 'px-6 max-w-7xl' : 'px-5 max-w-6xl';
@@ -245,7 +286,6 @@ const App: React.FC = () => {
                     onSave={(newItem) => handleAddItem('services', services, newItem)}
                 />;
             case 'testimonials':
-                // FIX: Specify the generic type for ManagementModal to ensure type safety for the new item.
                 return <ManagementModal<Omit<Testimonial, 'id'>>
                     isOpen={true}
                     onClose={() => setManagementModal(null)}
@@ -253,8 +293,16 @@ const App: React.FC = () => {
                     fields={[
                         { name: 'quote', label: 'Depoimento', type: 'textarea' },
                         { name: 'author', label: 'Autor', type: 'text' },
+                        { name: 'rating', label: 'Avaliação (1-5)', type: 'text' },
+                        { name: 'avatar', label: 'URL da Foto (Opcional)', type: 'text' },
                     ]}
-                    onSave={(newItem) => handleAddItem('testimonials', testimonials, newItem)}
+                    onSave={(newItem) => {
+                         const finalItem = { 
+                            ...newItem, 
+                            rating: Math.max(1, Math.min(5, Number((newItem as any).rating) || 5)) // Clamp rating between 1 and 5
+                        };
+                        handleAddItem('testimonials', testimonials, finalItem as any);
+                    }}
                 />;
             default: return null;
         }
@@ -271,13 +319,13 @@ const App: React.FC = () => {
                     onToggleEditMode={handleToggleEditMode}
                     isEditMode={isEditMode}
                     theme={theme}
-                    setTheme={setTheme}
+                    onThemeChange={handleThemeChange}
                     layout={layout}
-                    setLayout={setLayout}
+                    onLayoutChange={handleLayoutChange}
                     primaryColor={primaryColor}
-                    setPrimaryColor={setPrimaryColor}
+                    onPrimaryColorChange={handlePrimaryColorChange}
                     heroTitleFontSize={heroTitleFontSize}
-                    setHeroTitleFontSize={setHeroTitleFontSize}
+                    onHeroTitleFontSizeChange={handleHeroTitleFontSizeChange}
                     socialLinks={socialLinks}
                     setSocialLinks={handleSocialLinksChange}
                     onLogout={() => auth.signOut()}
@@ -324,6 +372,7 @@ const App: React.FC = () => {
                     onUpdate={(id, field, value) => handleUpdateItem('testimonials', testimonials, id, field, value)}
                     onDelete={(id) => handleDeleteItem('testimonials', testimonials, id)}
                     onAdd={() => setManagementModal('testimonials')}
+                    onAvatarChange={handleTestimonialAvatarChange}
                     containerClass={containerClass} 
                 />
                 <Gallery
