@@ -28,7 +28,7 @@ const Contact: React.FC<ContactProps> = ({ containerClass, content, isEditMode, 
                     </div>
                     <div className="mt-8 border-t border-black/10 pt-8">
                         <h3 className="font-bold text-theme-heading font-heading mb-2">Endereço</h3>
-                        <p className="text-theme-muted">R. Gislei Antonio Merloti, 1120 - São José, Mirassol - SP, 15130-242</p>
+                        <p className="text-theme-muted">R. Gislei Antonio Merloti, 1120 - São José, Mirassol - <span className="whitespace-nowrap">SP, 15130-242</span></p>
                         <h3 className="mt-4 font-bold text-theme-heading font-heading mb-2">Horário</h3>
                         <div className="text-theme-muted text-sm">
                             <p>Seg, Qua, Qui: 08:00–19:00</p>

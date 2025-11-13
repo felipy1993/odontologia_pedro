@@ -1,6 +1,7 @@
 import React from 'react';
 import Editable from './Editable';
 import { useAnimateOnScroll } from '../hooks/useAnimateOnScroll';
+import { transformGoogleDriveLink } from '../utils';
 
 const CheckIcon = () => (
     <svg className="w-5 h-5 text-theme-primary shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -18,11 +19,12 @@ interface AboutProps {
 
 const About: React.FC<AboutProps> = ({ containerClass, content, isEditMode, onContentChange }) => {
     const { ref, isVisible } = useAnimateOnScroll({ threshold: 0.2 });
+    const whatsappIconUrl = 'https://drive.google.com/file/d/1ushaed9yVjc4ic-orUUsGVxqicX-lMOk/view?usp=sharing';
 
     return (
         <section id="sobre" className={`container mx-auto py-16 lg:py-24 ${containerClass}`}>
             <div className="max-w-xl mx-auto text-center mb-12">
-                 <h2 className="text-3xl font-bold text-theme-heading font-heading">Sobre a clínica</h2>
+                 <h2 className="text-3xl font-bold text-theme-heading font-heading uppercase">NOSSO ESPAÇO</h2>
             </div>
             <div ref={ref} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center transition-opacity duration-500 ${isVisible ? 'animate-reveal' : 'opacity-0'}`}>
                 <div className="order-2 lg:order-1">
@@ -42,22 +44,23 @@ const About: React.FC<AboutProps> = ({ containerClass, content, isEditMode, onCo
                         </li>
                          <li className="flex items-start gap-3">
                             <CheckIcon />
-                             <span className="text-theme-text"><strong>Profissionais qualificados:</strong> Especialistas em clínica geral e odontopediatria.</span>
-                        </li>
-                         <li className="flex items-start gap-3">
-                            <CheckIcon />
-                            <span className="text-theme-text"><strong>Equipamentos modernos:</strong> Tecnologia de ponta para diagnósticos e tratamentos precisos.</span>
+                             <span className="text-theme-text"><strong>Nossas Especialidades:</strong> Odontopediatria, Implantes, Endodontia (Canal), Ortodontia, Próteses, Clínico geral.</span>
                         </li>
                     </ul>
                 </div>
                  <div className="order-1 lg:order-2">
                     <div className="bg-theme-card p-6 rounded-2xl shadow-lg border border-black/5">
                         <strong className="text-lg text-theme-heading font-heading">Nossa Localização</strong>
-                        <p className="text-theme-muted mt-2">R. Gislei Antonio Merloti, 1120 - São José, Mirassol - SP, 15130-242</p>
+                        <p className="text-theme-muted mt-2">R. Gislei Antonio Merloti, 1120 - São José, Mirassol - <span className="whitespace-nowrap">SP, 15130-242</span></p>
                         
                         <strong className="block mt-4 text-lg text-theme-heading font-heading">Telefone</strong>
-                        <a className="text-theme-muted hover:text-theme-primary transition-colors" href="tel:+5517996682637">(17) 9 9668-2637</a>
-                        
+                        <div className="flex items-center gap-2 mt-1">
+                            <a href="https://wa.me/5517996682637?text=Olá%2C%20gostaria%20de%20agendar%20uma%20consulta." target="_blank" rel="noopener noreferrer" aria-label="Abrir conversa no WhatsApp">
+                                <img src={transformGoogleDriveLink(whatsappIconUrl)} alt="WhatsApp" className="w-5 h-5 transition-transform hover:scale-110" />
+                            </a>
+                            <a className="text-theme-muted hover:text-theme-primary transition-colors" href="tel:+5517996682637">(17) 9 9668-2637</a>
+                        </div>
+
                         <strong className="block mt-4 text-lg text-theme-heading font-heading">Horário de Funcionamento</strong>
                         <div className="text-theme-muted mt-2 text-sm">
                             <p>Segunda, Quarta, Quinta: 08:00 – 19:00</p>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { SocialLinks } from '../types';
 import { useAnimateOnScroll } from '../hooks/useAnimateOnScroll';
+import { transformGoogleDriveLink } from '../utils';
 
 interface FooterProps {
     onAdminClick: () => void;
@@ -10,6 +11,7 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ onAdminClick, socialLinks, containerClass }) => {
     const { ref, isVisible } = useAnimateOnScroll({ threshold: 0.1 });
+    const whatsappIconUrl = 'https://drive.google.com/file/d/1ushaed9yVjc4ic-orUUsGVxqicX-lMOk/view?usp=sharing';
 
     return (
         <footer ref={ref} className={`bg-theme-accent border-t border-black/5 transition-opacity duration-500 ${isVisible ? 'animate-reveal' : 'opacity-0'}`}>
@@ -40,8 +42,13 @@ const Footer: React.FC<FooterProps> = ({ onAdminClick, socialLinks, containerCla
                         <h4 className="font-bold text-theme-heading font-heading mb-4">Contato</h4>
                         <ul className="space-y-2 text-sm text-theme-muted">
                             <li>R. Gislei A. Merloti, 1120</li>
-                            <li>Mirassol - SP, 15130-242</li>
-                            <li><a href="tel:+5517996682637" className="hover:text-theme-primary">(17) 9 9668-2637</a></li>
+                            <li>Mirassol - <span className="whitespace-nowrap">SP, 15130-242</span></li>
+                            <li className="flex items-center gap-2">
+                                <a href="https://wa.me/5517996682637?text=Olá%2C%20gostaria%20de%20agendar%20uma%20consulta." target="_blank" rel="noopener noreferrer" aria-label="Abrir conversa no WhatsApp">
+                                    <img src={transformGoogleDriveLink(whatsappIconUrl)} alt="WhatsApp" className="w-5 h-5 transition-transform hover:scale-110" />
+                                </a>
+                                <a href="tel:+5517996682637" className="hover:text-theme-primary">(17) 9 9668-2637</a>
+                            </li>
                         </ul>
                     </div>
 
@@ -50,7 +57,7 @@ const Footer: React.FC<FooterProps> = ({ onAdminClick, socialLinks, containerCla
                         <h4 className="font-bold text-theme-heading font-heading mb-4">Redes Sociais</h4>
                          <div className="flex gap-4">
                             <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-theme-muted hover:text-theme-primary">
-                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"></path></svg>
+                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664 4.771 4.919 4.919 1.266-.057 1.644-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"></path></svg>
                             </a>
                         </div>
                     </div>
